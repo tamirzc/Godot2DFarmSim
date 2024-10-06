@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtdfcsventfuw"]
+
+[ext_resource type="Texture2D" uid="uid://cotkureitdbil" path="res://Assets/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic_Plants.png" id="1_uyygd"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kouun"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 16.0
+angle_min = -45.0
+angle_max = 45.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 2.0
+radial_accel_max = 10.0
+scale_min = 0.4
+scale_max = 0.8
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rgkkl"]
+atlas = ExtResource("1_uyygd")
+region = Rect2(80, 16, 16, 16)
+
+[node name="berry_particle" type="GPUParticles2D"]
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_kouun")
+texture = SubResource("AtlasTexture_rgkkl")
+lifetime = 2.0
+one_shot = true
+speed_scale = 1.7
+explosiveness = 0.1

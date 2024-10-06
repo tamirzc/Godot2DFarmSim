@@ -1,0 +1,110 @@
+[gd_scene load_steps=15 format=3 uid="uid://crop10p3j2cjd"]
+
+[ext_resource type="Script" path="res://Scripts/Plant.gd" id="1_58xxc"]
+[ext_resource type="Texture2D" uid="uid://cotkureitdbil" path="res://Assets/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic_Plants.png" id="2_a5kid"]
+[ext_resource type="Shader" uid="uid://diia4yllqgg5i" path="res://Resources/sway.tres" id="2_d30n7"]
+[ext_resource type="Theme" uid="uid://qbg0e3ywphwg" path="res://Resources/theme.tres" id="3_g2bmi"]
+[ext_resource type="PackedScene" uid="uid://blxyps3t0hgwr" path="res://Scenes/wheat_particle.tscn" id="4_d44we"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ydyxl"]
+shader = ExtResource("2_d30n7")
+shader_parameter/Wind_Strength = 3.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubsbg"]
+atlas = ExtResource("2_a5kid")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_elxbl"]
+atlas = ExtResource("2_a5kid")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ix0x6"]
+atlas = ExtResource("2_a5kid")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ijmxv"]
+atlas = ExtResource("2_a5kid")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cwl43"]
+atlas = ExtResource("2_a5kid")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pv8vi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubsbg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_elxbl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ix0x6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ijmxv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cwl43")
+}],
+"loop": true,
+"name": &"Grow",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u1nah"]
+size = Vector2(16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_atiiv"]
+
+[node name="Wheat" type="StaticBody2D" groups=["Food", "Plants", "Wheat"]]
+script = ExtResource("1_58xxc")
+max_frames = 4
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_ydyxl")
+sprite_frames = SubResource("SpriteFrames_pv8vi")
+animation = &"Grow"
+
+[node name="Interact" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interact"]
+shape = SubResource("RectangleShape2D_u1nah")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Plants"]]
+shape = SubResource("CircleShape2D_atiiv")
+
+[node name="harvest_announce" type="Label" parent="."]
+offset_left = -45.0
+offset_top = -23.0
+offset_right = 45.0
+size_flags_horizontal = 4
+theme = ExtResource("3_g2bmi")
+theme_override_font_sizes/font_size = 6
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="particle" parent="." instance=ExtResource("4_d44we")]
+position = Vector2(0, 1)
+
+[node name="PhaseTimer" type="Timer" parent="."]
+wait_time = 7.0
+one_shot = true
+autostart = true
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -7.0
+offset_top = 4.0
+offset_right = 86.0
+offset_bottom = 31.0
+scale = Vector2(0.15, 0.15)
+step = 0.1
+show_percentage = false
+
+[connection signal="ready_to_harvest" from="." to="." method="_on_ready_to_harvest"]
+[connection signal="body_entered" from="Interact" to="." method="_on_interact_body_entered"]
+[connection signal="body_exited" from="Interact" to="." method="_on_interact_body_exited"]
+[connection signal="input_event" from="Interact" to="." method="_on_area_2d_input_event"]
+[connection signal="timeout" from="PhaseTimer" to="." method="_on_phase_timer_timeout"]

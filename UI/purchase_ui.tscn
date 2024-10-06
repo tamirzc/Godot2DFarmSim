@@ -1,0 +1,146 @@
+[gd_scene load_steps=13 format=3 uid="uid://dpfnivd7ev5fs"]
+
+[ext_resource type="Theme" uid="uid://qbg0e3ywphwg" path="res://Resources/theme.tres" id="1_4fuhl"]
+[ext_resource type="Script" path="res://Scripts/purchase_ui.gd" id="1_as8pd"]
+[ext_resource type="Texture2D" uid="uid://cotkureitdbil" path="res://Assets/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic_Plants.png" id="2_kbdnm"]
+[ext_resource type="ButtonGroup" uid="uid://bn3yb78ge4osw" path="res://Resources/Purchase_button_group.tres" id="2_u36ff"]
+[ext_resource type="Texture2D" uid="uid://csk1aplkjy132" path="res://Assets/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Characters/Free Chicken Sprites.png" id="3_eurri"]
+[ext_resource type="Texture2D" uid="uid://bq5020mfwlx64" path="res://Assets/Sprout Lands - Sprites - Basic pack/coin1_16x16.png" id="4_r5vke"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gid1e"]
+atlas = ExtResource("2_kbdnm")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lnx8i"]
+load_path = "res://.godot/imported/Basic_Plants.png-3e5ef3ab2923b2fdbe657474f2bc0813.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mddov"]
+atlas = SubResource("CompressedTexture2D_lnx8i")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1io1f"]
+atlas = ExtResource("3_eurri")
+region = Rect2(0, 1.6905, 13.0708, 13.5452)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ng1w"]
+atlas = ExtResource("4_r5vke")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u46so"]
+bg_color = Color(0.180392, 0.180392, 0.180392, 0.65098)
+
+[node name="PurchaseUI" type="CanvasLayer"]
+script = ExtResource("1_as8pd")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -113.0
+offset_right = 268.0
+grow_vertical = 0
+theme = ExtResource("1_4fuhl")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -8.0
+offset_right = 18.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="wheat" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="pick_wheat" type="Button" parent="Panel/HBoxContainer/wheat"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme = ExtResource("1_4fuhl")
+toggle_mode = true
+button_group = ExtResource("2_u36ff")
+icon = SubResource("AtlasTexture_gid1e")
+icon_alignment = 1
+expand_icon = true
+
+[node name="wheat_price" type="Label" parent="Panel/HBoxContainer/wheat"]
+layout_mode = 2
+theme = ExtResource("1_4fuhl")
+text = "1
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="berry" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="pick_berry" type="Button" parent="Panel/HBoxContainer/berry"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_u36ff")
+icon = SubResource("AtlasTexture_mddov")
+icon_alignment = 1
+expand_icon = true
+
+[node name="berry_price" type="Label" parent="Panel/HBoxContainer/berry"]
+layout_mode = 2
+theme = ExtResource("1_4fuhl")
+text = "1
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hen" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="pick_hen" type="Button" parent="Panel/HBoxContainer/hen"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme = ExtResource("1_4fuhl")
+toggle_mode = true
+button_group = ExtResource("2_u36ff")
+icon = SubResource("AtlasTexture_1io1f")
+icon_alignment = 1
+expand_icon = true
+
+[node name="hen_price" type="Label" parent="Panel/HBoxContainer/hen"]
+layout_mode = 2
+theme = ExtResource("1_4fuhl")
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="Panel/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_4fuhl")
+text = "533543"
+
+[node name="TextureRect" type="TextureRect" parent="Panel/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_4ng1w")
+stretch_mode = 3
+
+[node name="InfoLabel" type="Label" parent="Panel"]
+visible = false
+layout_mode = 0
+offset_left = 8.0
+offset_top = -28.0
+offset_right = 48.0
+offset_bottom = -5.0
+theme = ExtResource("1_4fuhl")
+theme_override_styles/normal = SubResource("StyleBoxFlat_u46so")
+text = "New chicken spawned in the hen house!"
+
+[node name="Timer" type="Timer" parent="Panel/InfoLabel"]
+wait_time = 2.0
+one_shot = true

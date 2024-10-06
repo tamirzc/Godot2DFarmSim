@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnld08th5blw"]
+
+[ext_resource type="Script" path="res://Scripts/main_menu.gd" id="1_bsmc8"]
+[ext_resource type="Theme" uid="uid://qbg0e3ywphwg" path="res://Resources/theme.tres" id="1_tbsk0"]
+[ext_resource type="Texture2D" uid="uid://bgj146dovg7cu" path="res://Assets/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Egg_item.png" id="2_yje2i"]
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource("1_bsmc8")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_tbsk0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 406.0
+offset_right = -360.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Panel/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_yje2i")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/TextureRect"]
+layout_mode = 0
+offset_left = -45.0
+offset_top = 265.0
+offset_right = 383.0
+offset_bottom = 402.0
+rotation = -0.610865
+theme = ExtResource("1_tbsk0")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 100
+text = "FarmSim"
+
+[node name="Start" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Start"
+
+[node name="Quit" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Quit"
+
+[connection signal="pressed" from="Panel/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

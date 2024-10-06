@@ -1,0 +1,95 @@
+[gd_scene load_steps=13 format=3 uid="uid://b2awggu4k2lon"]
+
+[ext_resource type="Script" path="res://Scripts/chicken.gd" id="1_qp3ld"]
+[ext_resource type="Texture2D" uid="uid://csk1aplkjy132" path="res://Assets/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Characters/Free Chicken Sprites.png" id="2_5xw4e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t14a3"]
+atlas = ExtResource("2_5xw4e")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xlmwm"]
+atlas = ExtResource("2_5xw4e")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xe3by"]
+atlas = ExtResource("2_5xw4e")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0u3o5"]
+atlas = ExtResource("2_5xw4e")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vkbl"]
+atlas = ExtResource("2_5xw4e")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fs7wv"]
+atlas = ExtResource("2_5xw4e")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ixtlx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t14a3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xlmwm")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xe3by")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0u3o5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1vkbl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fs7wv")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vmow8"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w3dl5"]
+radius = 170.144
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1uc7o"]
+radius = 25.0
+
+[node name="Chicken" type="CharacterBody2D" groups=["Chicken"]]
+position = Vector2(208, 311)
+script = ExtResource("1_qp3ld")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ixtlx")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.0690422
+
+[node name="ChickenCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vmow8")
+
+[node name="CollisionWheat" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionWheat"]
+shape = SubResource("CircleShape2D_w3dl5")
+
+[node name="CollisionEat" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionEat"]
+shape = SubResource("CircleShape2D_1uc7o")
+
+[connection signal="body_entered" from="CollisionWheat" to="." method="_on_collision_wheat_body_entered"]
+[connection signal="body_exited" from="CollisionWheat" to="." method="_on_collision_wheat_body_exited"]
+[connection signal="body_entered" from="CollisionEat" to="." method="_on_collision_eat_body_entered"]

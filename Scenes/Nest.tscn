@@ -1,0 +1,98 @@
+[gd_scene load_steps=11 format=3 uid="uid://ve1epre66ieo"]
+
+[ext_resource type="Script" path="res://Scripts/nest.gd" id="1_04840"]
+[ext_resource type="Texture2D" uid="uid://dcocv6134k4qk" path="res://Assets/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Characters/Egg_And_Nest.png" id="1_inmlf"]
+[ext_resource type="Theme" uid="uid://qbg0e3ywphwg" path="res://Resources/theme.tres" id="3_juyu4"]
+[ext_resource type="PackedScene" uid="uid://bmfy5acsjixgy" path="res://Scenes/egg_particle.tscn" id="4_y1y5q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pt7sg"]
+atlas = ExtResource("1_inmlf")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qgeun"]
+atlas = ExtResource("1_inmlf")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ifb0f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pt7sg")
+}],
+"loop": true,
+"name": &"empty_nest",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qgeun")
+}],
+"loop": true,
+"name": &"full_nest",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gf6kq"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t1uog"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e66p5"]
+radius = 16.0
+
+[node name="Nest" type="StaticBody2D"]
+z_index = 5
+script = ExtResource("1_04840")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ifb0f")
+animation = &"empty_nest"
+autoplay = "empty_nest"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_gf6kq")
+
+[node name="PhaseTimer" type="Timer" parent="."]
+wait_time = 7.0
+one_shot = true
+autostart = true
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -7.0
+offset_top = 4.0
+offset_right = 86.0
+offset_bottom = 31.0
+scale = Vector2(0.15, 0.15)
+step = 0.1
+show_percentage = false
+
+[node name="harvest_announce" type="Label" parent="."]
+offset_left = -45.0
+offset_top = -23.0
+offset_right = 45.0
+size_flags_horizontal = 4
+theme = ExtResource("3_juyu4")
+theme_override_font_sizes/font_size = 6
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="particle" parent="." instance=ExtResource("4_y1y5q")]
+
+[node name="check_for_chicken" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="check_for_chicken"]
+shape = SubResource("CircleShape2D_t1uog")
+
+[node name="Check_for_player" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Check_for_player"]
+shape = SubResource("CircleShape2D_e66p5")
+
+[connection signal="timeout" from="PhaseTimer" to="." method="_on_phase_timer_timeout"]
+[connection signal="body_entered" from="check_for_chicken" to="." method="_on_check_for_chicken_body_entered"]
+[connection signal="body_exited" from="check_for_chicken" to="." method="_on_check_for_chicken_body_exited"]
+[connection signal="body_entered" from="Check_for_player" to="." method="_on_check_for_player_body_entered"]
+[connection signal="body_exited" from="Check_for_player" to="." method="_on_check_for_player_body_exited"]
